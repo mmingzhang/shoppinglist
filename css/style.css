@@ -87,7 +87,7 @@ body {
   text-align: center;
 }
 
-#delete {
+.delete {
   margin-top: 3px;
   float: right;
 }
