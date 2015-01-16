@@ -1,33 +1,61 @@
+/* global $ */
 $(document).ready(function() {
-  // add an item to shoplist
-  $('#additem-btn').click(function(){
-    var itemtxt = document.getElementById('additem-txt');
-    var itemvalue = itemtxt.value;
-    console.log(itemvalue);
 
-    if(!$.trim($('#additem-txt').val())) {
+  function submit () {
+    var itemtxt = document.getElementById('additem-txt');
+    var itemvalue = $.trim(itemtxt.value);
+
+    if (!itemvalue) {
       alert('Invalid item. Please input text to Add item text box.');
     } else {
-      //$('<li class="listitem"></li>').appendTo('.shoplist').html('<img id="unchkbox" src="images/uncheck.png"/><input id="itemtxt" value=' + itemvalue + '><input id="qty-num" type="number" min="1" max="1000" value="1"><img id="delete" src="images/delete.png"/>');
-      //$('<li class="listitem"></li>').appendTo('.shoplist').html('<div class="unchkbox"></div><span class="itemtxt">' + itemvalue + '</span><input id="qty-num" type="number" min="1" max="1000" value="1"><img id="delete" src="images/delete.png"/>');
-      $('<li class="listitem"></li>').appendTo('.shoplist').html('<div class="unchkbox"></div><span class="itemtxt">' + itemvalue + '</span><img id="delete" src="images/delete.png"/>');
-    };
-  });
+      /*$('<li class="listitem"></li>').appendTo('.shoplist').html(
+        '<input type="checkbox" class="unchkbox">' +
+        '<span class="itemtxt"></span>' +
+        '<img class="delete" src="images/delete.png">'
+      ).children('.itemtxt').text(itemvalue);*/
+      $('<li class="listitem"></li>').appendTo('.shoplist').html(
+        '<input type="checkbox" class="unchkbox">' +
+        '<span class="itemtxt"></span>' +
+        '<img class="delete" src="images/delete.png">'
+      ).children('.itemtxt').text(itemvalue);
+
+      var test= $('.itemtxt');
+
+      console.log(test);
+    }
+  }
+
+  // add an item to shoplist
+  $('#additem-btn').click(submit);
 
   $('#additem-txt').keydown(function(event){
     var enter = 13;
-    if(event.keyCode == enter) {
-      $('#additem-btn').click();
-    };
+
+    if (event.keyCode === enter) {
+      submit();
+    }
   }); 
 
   // delete a shoplist item
-  $('.shoplist').on('click', '#delete', function(e){$(this).parent().remove()});
+  $('.shoplist').on('click', '.delete', function () {
+    $(this).parent().remove();
+  });
 
   // check / uncheck item
-  $('.shoplist').on('click', 'li', function(){
-      $(this).toggleClass('strike-itemtxt');
-      $(this).children('.unchkbox').toggleClass('checked');
+  /*$('.shoplist').on('click', 'li', function () {
+    var $this = $(this);
+    var checked = $this.hasClass('strike-itemtxt');
+
+    $this.toggleClass('strike-itemtxt');
+    $this.children('.unchkbox').attr('checked', checked ? 'checked' : '');
+  });*/
+
+  $('.shoplist').on('click', '.unchkbox', function () {
+    var $this = $(this);
+    var checked = $this.parent().hasClass('strike-itemtxt');
+
+    $this.parent().toggleClass('strike-itemtxt');
+    $this.attr('checked', checked ? 'checked' : '');
   });
 
 });
